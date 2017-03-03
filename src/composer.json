@@ -1,0 +1,28 @@
+{
+    "authors": [
+        {
+            "name": "Huy Ta",
+            "email": "huytbt@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Chicken\\Bread\\": "./"
+        }
+    },
+    "bin": ["./bin/bread"],
+    "description": "Laravel B.R.E.A.D Package",
+    "keywords": ["laravel", "package", "bread", "crud"],
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "name": "huytbt/laravel-bread",
+    "require": {
+        "php": ">=5.5.9"
+    },
+    "support": {
+        "issues": "https://github.com/huytbt/laravel-bread/issues",
+        "source": "https://github.com/huytbt/laravel-bread"
+    },
+    "type": "library",
+    "version": "1.0.0"
+}

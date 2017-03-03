@@ -1,0 +1,39 @@
+#!/usr/bin/env php
+<?php
+
+if ($argc <= 1 || in_array($argv[1], array('--help', '-help', '-h', '-?'))) {
+    echo <<<EOL
+This is a command line PHP script with one option.
+
+  Usage:
+    $argv[0] <option>
+
+  <option> can be some word you would like to print out. With the --help, -help, -h, or -? options, you can get this help.
+
+EOL;
+    return;
+}
+
+$params = $argv;
+unset($params[0], $params[1]);
+
+$packageName = 'huytbt/laravel-bread';
+$breadDir = __DIR__ . '/src';
+$chickenAppDir = __DIR__ . '/tests/chicken';
+
+$exists = file_exists($chickenAppDir);
+
+if ($argv[1] == 'init' || !$exists) {
+    if (!$exists) {
+        passthru("composer create-project --prefer-dist laravel/laravel {$chickenAppDir}");
+    }
+    chdir($chickenAppDir);
+    passthru("composer config repositories.{$packageName} path {$breadDir}");
+    passthru("composer require {$packageName} @dev");
+}
+
+if ($argv[1] == 'test') {
+    passthru("{$chickenAppDir}/vendor/bin/phpunit --configuration {$chickenAppDir}/phpunit.xml " . implode(' ', $params));
+}
+
+echo "\n";
