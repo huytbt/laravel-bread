@@ -20,18 +20,19 @@ unset($params[0], $params[1]);
 $packageName = 'huytbt/laravel-bread';
 $breadDir = __DIR__ . '/src';
 $chickenAppDir = __DIR__ . '/tests/chicken';
+
 $exists = file_exists($chickenAppDir);
 
 if ($argv[1] == 'init' || !$exists) {
     if (!$exists) {
         passthru("composer create-project --prefer-dist laravel/laravel {$chickenAppDir}");
     }
-}
-
-if ($argv[1] == 'test') {
     chdir($chickenAppDir);
     passthru("composer config repositories.{$packageName} path {$breadDir}");
     passthru("composer require {$packageName} @dev");
+}
+
+if ($argv[1] == 'test') {
     passthru("{$chickenAppDir}/vendor/bin/phpunit --configuration {$chickenAppDir}/phpunit.xml " . implode(' ', $params));
 }
 
