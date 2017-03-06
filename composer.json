@@ -10,7 +10,7 @@
             "Chicken\\Bread\\": "./src"
         }
     },
-    "bin": ["bread"],
+    "bin": ["./src/bin/bread"],
     "description": "Laravel B.R.E.A.D Package",
     "keywords": ["laravel", "package", "bread", "crud"],
     "license": "MIT",
