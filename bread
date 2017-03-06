@@ -1,21 +1,21 @@
 #!/usr/bin/env php
 <?php
 
-if ($argc <= 1 || in_array($argv[1], array('--help', '-help', '-h', '-?'))) {
+if ($argc <= 1 || in_array($argv[1], array('--help', '-h', '-?'))) {
     echo <<<EOL
-This is a command line PHP script with one option.
+Usage:
+  $argv[0] <option>
 
-  Usage:
-    $argv[0] <option>
-
-  <option> can be some word you would like to print out. With the --help, -help, -h, or -? options, you can get this help.
+Options:
+\033[32m  -h, --help, -? \033[0m                     Display this help message
+\033[32m  test           \033[0m                     Run unit test
 
 EOL;
     return;
 }
 
 $params = $argv;
-unset($params[0], $params[1]);
+unset($params[0]);
 
 $packageName = 'huytbt/laravel-bread';
 $breadDir = __DIR__ . '/src';
@@ -32,8 +32,6 @@ if ($argv[1] == 'init' || !$exists) {
     passthru("composer require {$packageName} @dev");
 }
 
-if ($argv[1] == 'test') {
-    passthru("{$chickenAppDir}/vendor/bin/phpunit --configuration {$chickenAppDir}/phpunit.xml " . implode(' ', $params));
-}
+passthru("php {$chickenAppDir}/vendor/bin/bread " . implode(' ', $params), $result);
 
-echo "\n";
+exit($result);
