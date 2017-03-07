@@ -7,7 +7,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Chicken\\Bread\\": "./"
+            "PhpSoft\\Bread\\": "./"
         }
     },
     "bin": ["./bin/bread"],
@@ -15,7 +15,7 @@
     "keywords": ["laravel", "package", "bread", "crud"],
     "license": "MIT",
     "minimum-stability": "dev",
-    "name": "huytbt/laravel-bread",
+    "name": "php-soft/laravel-bread",
     "require": {
         "php": ">=5.5.9"
     },

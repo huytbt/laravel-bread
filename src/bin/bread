@@ -24,7 +24,7 @@ chdir($appDir);
 
 if ($argv[1] == 'test') {
     passthru("{$appDir}/vendor/bin/phpunit --configuration {$appDir}/phpunit.xml " . implode(' ', $params), $result);
-} else {
+} elseif (!in_array($argv[1], ['init', 'update'])) {
     passthru("php {$appDir}/artisan {$argv[1]} " . implode(' ', $params), $result);
 }
 
