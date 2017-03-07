@@ -17,7 +17,7 @@ EOL;
 $params = $argv;
 unset($params[0]);
 
-$packageName = 'huytbt/laravel-bread';
+$packageName = 'php-soft/laravel-bread';
 $breadDir = __DIR__ . '/src';
 $chickenAppDir = __DIR__ . '/tests/chicken';
 
@@ -30,6 +30,11 @@ if ($argv[1] == 'init' || !$exists) {
     chdir($chickenAppDir);
     passthru("composer config repositories.{$packageName} path {$breadDir}");
     passthru("composer require {$packageName} @dev");
+}
+
+if ($argv[1] == 'update') {
+    chdir($chickenAppDir);
+    passthru("composer update {$packageName} " . implode(' ', $params));
 }
 
 passthru("php {$chickenAppDir}/vendor/bin/bread " . implode(' ', $params), $result);
