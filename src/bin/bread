@@ -28,7 +28,6 @@ if ($argv[1] == 'test') {
     passthru("{$appDir}/vendor/bin/phpunit --configuration {$appDir}/phpunit.xml " . implode(' ', $params), $result);
 } elseif ($argv[1] == 'register') {
     try {
-        throw new Exception('Test error');
         $serviceNamespace = 'PhpSoft\Bread\Providers\BreadServiceProvider::class,';
         $configFile = $appDir . '/config/app.php';
         if (!file_exists($configFile)) {
