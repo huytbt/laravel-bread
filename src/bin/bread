@@ -59,11 +59,19 @@ if ($argv[1] == 'test') {
                     break;
                 }
             }
+            if ($pos < 0) {
+                foreach ($configContents as $i => $row) {
+                    if (strpos($row, 'Application Service Providers') !== FALSE) {
+                        $pos = $i;
+                        break;
+                    }
+                }
+            }
 
             // not found position
             if ($pos < 0) {
-                throw new Exception("\033[31mCannot register BREAD Service Provider.\n"
-                    . "Please add following code to \"\033[33mproviders\033[31m\" in config/app.php\n\033[0m"
+                throw new Exception("\033[31mCannot register BREAD Service Provider.\033[0m\n"
+                    . "\033[31mPlease add following code to \"\033[33mproviders\033[31m\" in config/app.php\033[0m\n"
                     . "    \033[32m{$serviceNamespace}\033[0m\n");
             }
 
