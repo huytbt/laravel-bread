@@ -37,6 +37,13 @@ if ($argv[1] == 'update') {
     passthru("composer update {$packageName} " . implode(' ', $params));
 }
 
+if ($argv[1] == 're-install') {
+    chdir($chickenAppDir);
+    passthru("composer remove {$packageName} --update-with-dependencies --no-scripts " . implode(' ', $params));
+    passthru("composer config repositories.{$packageName} path {$breadDir}");
+    passthru("composer require {$packageName} @dev");
+}
+
 passthru("php {$chickenAppDir}/vendor/bin/bread " . implode(' ', $params), $result);
 
 exit($result);
