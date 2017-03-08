@@ -85,7 +85,7 @@ if ($argv[1] == 'test') {
             }
 
             // add service provider
-            array_splice($configContents, $pos + 1, 0, [str_replace(' */', $serviceNamespace, $configContents[$pos])]);
+            array_splice($configContents, $pos + 1, 0, [str_repeat(' ', 8) . $serviceNamespace]);
 
             // save sonfig file
             file_put_contents($configFile, implode("\n", $configContents));
