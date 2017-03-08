@@ -16,14 +16,80 @@ EOL;
 
 $composerDir = dirname(dirname($_SERVER['SCRIPT_FILENAME']));
 $appDir = dirname($composerDir);
-$result = true;
+$result = 0;
 $params = $argv;
 unset($params[0], $params[1]);
+
+require_once($composerDir . '/autoload.php');
 
 chdir($appDir);
 
 if ($argv[1] == 'test') {
     passthru("{$appDir}/vendor/bin/phpunit --configuration {$appDir}/phpunit.xml " . implode(' ', $params), $result);
+} elseif ($argv[1] == 'register') {
+    try {
+        throw new ('Test error');
+        $serviceNamespace = 'PhpSoft\Bread\Providers\BreadServiceProvider::class,';
+        $configFile = $appDir . '/config/app.php';
+        if (!file_exists($configFile)) {
+            throw new Exception("\033[31mCannot register BREAD Service Provider because find not found config/app.php file.\n"
+                . "Please add following code to config/app.php\n\033[0m"
+                . "    \033[32m{$serviceNamespace}\033[0m\n");
+        }
+        $configContent = file_get_contents($configFile);
+        $configContents = explode("\n", $configContent);
+
+        // check exists service provider
+        $exists = false;
+        foreach ($configContents as $i => $row) {
+            if (strpos($row, 'PhpSoft\Bread\Providers\BreadServiceProvider') !== FALSE) {
+                $exists = true;
+                break;
+            }
+        }
+
+        if ($exists) {
+            echo "\033[32mThe BREAD Service Provider already exists.\033[0m\n";
+            $result = 0;
+        } else {
+            $pos = -1;
+            // find position to add provider
+            foreach ($configContents as $i => $row) {
+                if (strpos($row, 'Package Service Providers') !== FALSE) {
+                    $pos = $i;
+                    break;
+                }
+            }
+
+            // not found position
+            if ($pos < 0) {
+                throw new Exception("\033[31mCannot register BREAD Service Provider.\n"
+                    . "Please add following code to \"\033[33mproviders\033[31m\" in config/app.php\n\033[0m"
+                    . "    \033[32m{$serviceNamespace}\033[0m\n");
+            }
+
+            // get position to add
+            for ($i = $pos; $i < count($configContents); $i++) {
+                $row = $configContents[$i];
+                if (strpos($row, '*/') !== FALSE) {
+                    $pos = $i;
+                    break;
+                }
+            }
+
+            // add service provider
+            array_splice($configContents, $pos + 1, 0, [str_replace(' */', $serviceNamespace, $configContents[$pos])]);
+
+            // save sonfig file
+            file_put_contents($configFile, implode("\n", $configContents));
+
+            echo "\033[32mRegister BREAD Service Provider successful!\033[0m\n";
+            $result = 0;
+        }
+    } catch (Exception $ex) {
+        echo $ex->getMessage();
+        exit(1);
+    }
 } elseif (!in_array($argv[1], ['init', 'update'])) {
     passthru("php {$appDir}/artisan {$argv[1]} " . implode(' ', $params), $result);
 }
