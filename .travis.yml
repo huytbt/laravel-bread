@@ -8,6 +8,7 @@ php:
 - hhvm
 
 script:
+  - php bread register
   - php bread test
 
 notifications:
