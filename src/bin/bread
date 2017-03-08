@@ -97,7 +97,7 @@ if ($argv[1] == 'test') {
         echo $ex->getMessage();
         exit(1);
     }
-} elseif (!in_array($argv[1], ['init', 'update'])) {
+} elseif (!in_array($argv[1], ['init', 'update', 're-install'])) {
     passthru("php {$appDir}/artisan {$argv[1]} " . implode(' ', $params), $result);
 }
 
