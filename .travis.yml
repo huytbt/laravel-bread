@@ -10,6 +10,7 @@ php:
 script:
   - php bread register
   - php bread test
+  - php bread test tests/testcases
 
 notifications:
   on_success: always
