@@ -3,6 +3,7 @@
 namespace PhpSoft\Bread\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use PhpSoft\Bread\Console\Commands\MakeResource;
 
 class BreadServiceProvider extends ServiceProvider
 {
@@ -13,7 +14,11 @@ class BreadServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                MakeResource::class,
+            ]);
+        }
     }
 
     /**
