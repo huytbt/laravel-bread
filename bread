@@ -44,6 +44,11 @@ if ($argv[1] == 're-install') {
     passthru("composer require {$packageName} @dev");
 }
 
-passthru("php {$chickenAppDir}/vendor/bin/bread " . implode(' ', $params), $result);
+if ($argv[1] == 'test') {
+    unset($params[1]);
+    passthru("{$chickenAppDir}/vendor/bin/phpunit --configuration {$chickenAppDir}/phpunit.xml " . implode(' ', $params), $result);
+} else {
+    passthru("php {$chickenAppDir}/vendor/bin/bread " . implode(' ', $params), $result);
+}
 
 exit($result);
